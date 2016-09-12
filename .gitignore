@@ -1,17 +1,28 @@
 *.class
 *.log
 
-# sbt specific
-.cache
-.history
-.lib/
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
+# gradle
+.gradle
+/build
 
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+# IDEA
+.idea
+.shelf
+/*.iml
+/*.ipr
+/*.iws
+/buildSrc/*.iml
+/buildSrc/*.ipr
+/buildSrc/*.iws
+/buildSrc/out
+/out
+/subprojects/*/*.iml
+/subprojects/*/out
+
+# OS X
+# ----
+.DS_Store
