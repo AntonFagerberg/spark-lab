@@ -41,6 +41,7 @@ You can also open any test source file and right click either on the class name 
 
 #### Optional
 Run all tests:
+
 `./gradlew test` (Mac/Linux)
 
 `gradlew.bat test` (Windows)
