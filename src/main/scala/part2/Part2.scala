@@ -1,0 +1,153 @@
+package part2
+
+import org.apache.spark.rdd.RDD
+import setup.User
+
+/** Part 2: Pair RDD functions
+  *
+  * In this part, we will apply functions using pair RDDs created from user data.
+  *
+  * In addition to the functions we used in part1:
+  * http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.rdd.RDD
+  *
+  * You will also need to use these functions:
+  * http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.rdd.PairRDDFunctions
+  *
+  * (In this part, it's harder to use the clues in the tests).
+  */
+object Part2 {
+
+  /** Create a pair RDD with the age used as the key.
+    */
+  def keyedByAge(users: RDD[User]): RDD[(Int, User)] = {
+    users
+      .keyBy(_.age)
+  }
+
+  /** Count the number of unique ages.
+    *
+    * Return an pair RDD with the age as key and the number of users with
+    * that age as the value.
+    */
+  def ageCount(users: RDD[User]): RDD[(Int, Int)] = {
+    users
+      .map(user => user.age -> 1)
+      .reduceByKey(_ + _)
+  }
+
+  /** What is the most common age?
+    * How many has that age?
+    *
+    * Return a tuple with (age, count)
+    */
+  def mostCommonAge(users: RDD[User]): (Int, Int) = {
+    users
+      .map(user => user.age -> 1)
+      .reduceByKey(_ + _)
+      .reduce { case (t1@(age1, count1), t2@(age2, count2)) =>
+        if (count1 > count2) {
+          t1
+        } else {
+          t2
+        }
+      }
+  }
+
+  /** Return a pair RDD:
+    * The key should be the first letter of the (first) name.
+    * The value should be a list of all the users with a (first) name
+    * that starts with that letter..
+    *
+    * Example: ('A', List(User("Adam", ...), User("Albert", ...), ...)
+    */
+  def usersGroupedByFirstLetter(users: RDD[User]): RDD[(Char, List[User])] = {
+    users
+      .map(user => user.name.head -> List(user))
+      .reduceByKey(_ ++ _)
+  }
+
+  /** Some names have nicknames.
+    * You will receive two RDDs. One contains users as before.
+    * The other contains a tuple with (name, nickname).
+    *
+    * Return RDD with (nickname, surname) for all users that has a nickname.
+    */
+  def nickNames(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(String, String)] = {
+    users
+      .map(user => user.name -> user.surname)
+      .join(nicknames)
+      .map { case (_, (surname, nickname)) =>
+        nickname -> surname
+      }
+  }
+
+  /** Like before, but if a user has no nickname, use "Nope" as the nickname instead.
+    *
+    * Return RDD with (nickname, surname) for all users.
+    */
+  def nickNamesWithDefaultValue(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(String, String)] = {
+    users
+      .map(user => user.name -> user.surname)
+      .leftOuterJoin(nicknames)
+      .map { case (_, (surname, nickname)) =>
+        nickname.getOrElse("Nope") -> surname
+      }
+  }
+
+  /** CombineByKey is a very powerful function similar to reduce, but with a different return type.
+    * To use it, we will have to implement three methods: createCombiner, mergeValue and mergeCombiners.
+    *
+    * For every unique age, return the name(s) with the shortest length.
+    *
+    * Return RDD with (age, list of names).
+    * Example: RDD((56,List(Joel, Leah, Rhea, Roth, Sade, Yoko)), (40,List(Ima)), (41,List(Colt, Todd)), ...)
+    */
+  def shortestNamesByAge(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(Int, List[String])] = {
+
+    /** The createCombiner turns our value (User) into the format we want
+      * to return, i.e. a list of (first) names.
+      */
+    def createCombiner(user: User): List[String] = {
+      List(user.name)
+    }
+
+    /** mergeValue is called in when we have to merge a value (User) with our
+      * return value (list of names).
+      *
+      * We have to handle three outcomes:
+      * The User has a shorter name than the list of names => create a new list from the User with its name.
+      * The list of names are shorter than the User's name => keep the list of names, discard the User.
+      * The name in User is the same length as the list of names => add the User's name to the list of names.
+      */
+    def mergeValue(names: List[String], user: User): List[String] = {
+      if (user.name.length < names.head.length) {
+        List(user.name)
+      } else if (user.name.length > names.head.length) {
+        names
+      } else {
+        user.name :: names
+      }
+    }
+
+    /** Merge combiners is used to merge two return values (list of names).
+      *
+      * We have to handle three outcomes:
+      * The names in names1 has the shortest lengths => use names1
+      * The names in names2 has the shortest lengths => use names2
+      * The names in names1 and names2 have equal lengths => combine the lists
+      */
+    def mergeCombiners(names1: List[String], names2: List[String]): List[String] = {
+      if (names1.head.length < names2.head.length) {
+        names1
+      } else if (names1.head.length > names2.head.length) {
+        names2
+      } else {
+        names1 ++ names2
+      }
+    }
+
+    users
+      .keyBy(_.age) // Key all our users by age.
+      .combineByKey(createCombiner, mergeValue, mergeCombiners)
+  }
+}

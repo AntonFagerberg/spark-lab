@@ -5,12 +5,12 @@ import org.scalatest.junit.JUnitRunner
 import setup.SparkTest
 
 @RunWith(classOf[JUnitRunner])
-class BasicRDDFunctionsTest extends SparkTest {
+class Part1Test extends SparkTest {
 
   test("Make it upper case") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 
-    val result = BasicRDDFunctions.makeItUpperCase(prideAndPrejudiceRDD).collect()
+    val result = Part1.makeItUpperCase(prideAndPrejudiceRDD).collect()
 
     val expected = prideAndPrejudice.map(_.toUpperCase)
 
@@ -20,7 +20,7 @@ class BasicRDDFunctionsTest extends SparkTest {
   test("Mr. Darcy") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 
-    val result = BasicRDDFunctions.mrDarcy(prideAndPrejudiceRDD).collect()
+    val result = Part1.mrDarcy(prideAndPrejudiceRDD).collect()
 
     val expected = prideAndPrejudice.filter(_.contains("Darcy"))
 
@@ -30,7 +30,7 @@ class BasicRDDFunctionsTest extends SparkTest {
   test("How many words") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 
-    val result = BasicRDDFunctions.howManyWords(prideAndPrejudiceRDD)
+    val result = Part1.howManyWords(prideAndPrejudiceRDD)
 
     val expected = prideAndPrejudice.flatMap(_.split(' ')).length
 
@@ -40,7 +40,7 @@ class BasicRDDFunctionsTest extends SparkTest {
   test("Shortest non-empty line") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 
-    val result = BasicRDDFunctions.shortestNonEmptyLine(prideAndPrejudiceRDD)
+    val result = Part1.shortestNonEmptyLine(prideAndPrejudiceRDD)
 
     //noinspection SimplifiableFoldOrReduce
     val expected =
@@ -55,7 +55,7 @@ class BasicRDDFunctionsTest extends SparkTest {
   test("'a' is my favourite") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 
-    val result = BasicRDDFunctions.aIsMyFavourite(prideAndPrejudiceRDD)
+    val result = Part1.aIsMyFavourite(prideAndPrejudiceRDD)
 
     val expected =
       prideAndPrejudice

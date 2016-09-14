@@ -37,4 +37,18 @@ trait SparkTest extends FunSuite with BeforeAndAfterAll with Matchers {
   }
 
   lazy val prideAndPrejudice = readFile("pride_and_prejudice.txt")
+
+  lazy val users =
+    readFile("users.txt")
+      .sliding(7,7)
+      .map { case List(_, name, surname, city, country, age, _) =>
+        User(
+          name.drop(1).dropRight(2),
+          surname.drop(1).dropRight(2),
+          city.drop(1).dropRight(2),
+          country.drop(1).dropRight(2),
+          age.toInt
+        )
+      }
+      .toList
 }

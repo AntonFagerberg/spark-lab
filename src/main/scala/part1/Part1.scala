@@ -9,9 +9,9 @@ import org.apache.spark.rdd.RDD
   * All the functions you need to implement these methods are found here:
   * http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.rdd.RDD
   *
-  * If you get stuck, you can look at the tests for clues.
+  * If you get stuck in part 1, you can look at the tests for clues.
   */
-object BasicRDDFunctions {
+object Part1 {
 
   /** The book needs more screaming!
     * MAKE ALL THE LINES UPPER CASE!
