@@ -51,4 +51,12 @@ trait SparkTest extends FunSuite with BeforeAndAfterAll with Matchers {
         )
       }
       .toList
+
+  lazy val largestGraph =
+    readFile("largest_graph.txt")
+    .drop(3)
+    .map(_.splitAt(2))
+    .map { case (from, to) =>
+      List(from.trim.toInt, to.trim.toInt)
+    }
 }
