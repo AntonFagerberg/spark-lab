@@ -13,8 +13,8 @@ import org.apache.spark.storage.StorageLevel
   *
   * Example input:
   * List(1, 2) -- you can get from 1 to 2 and from 2 to 1
-  * List(2, 3) -- you can get from 2 to 3 and from 3 to 2, and since you can get from 1 to 2, you can get from 1 to 3
-  * List(3, 4) -- and so on
+  * List(2, 3) -- you can get from 2 to 3 and from 3 to 2, and since you can get from 1 to 2, you can travel between 1, 2 & 3.
+  * List(4, 3) -- and so on
   * List(6, 5) -- 6 and 5 are not connected to 1, 2, 3 or 4.
   *
   * Example output:
