@@ -4,7 +4,8 @@ import org.apache.spark.Partitioner
 import setup.User
 
 /** Part 4: Partitioner
-  * The partitioner is resposible for dividing the items contained in an rdd
+  *
+  * The partitioner is responsible for dividing the items contained in an RDD
   * across a fixed number of partitions.
   *
   * This is done by mapping all objects to an integer between 0 and numPartitions.
