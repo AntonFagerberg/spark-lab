@@ -27,6 +27,16 @@ class Part1Test extends SparkTest {
     result should contain theSameElementsAs expected
   }
 
+  test("All the words") {
+    val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
+
+    val result = Part1.allTheWords(prideAndPrejudiceRDD).collect()
+
+    val expected = prideAndPrejudice.flatMap(_.split(' '))
+
+    result should contain theSameElementsAs  expected
+  }
+
   test("How many words") {
     val prideAndPrejudiceRDD = sparkContext.parallelize(prideAndPrejudice)
 

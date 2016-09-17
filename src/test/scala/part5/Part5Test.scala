@@ -9,7 +9,6 @@ import scala.annotation.tailrec
 @RunWith(classOf[JUnitRunner])
 class Part5Test extends SparkTest {
 
-
   test("Largest graphs") {
     val largestGraphRDD = sparkContext.parallelize(largestGraph)
 
@@ -31,7 +30,6 @@ class Part5Test extends SparkTest {
       if (iteration.size < input.size) findExpectedLargestGraphs(iteration)
       else iteration.map(_.sorted.distinct)
     }
-
 
     val expected = findExpectedLargestGraphs(largestGraph.map(_.sorted))
 

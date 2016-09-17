@@ -6,7 +6,7 @@ import setup.SparkTest
 
 @RunWith(classOf[JUnitRunner])
 class AlreadyImplementedTest extends SparkTest {
-  test("The numbers should be multiplied with two") {
+  test("The numbers should be multiplied by two") {
     val input = 0 until 10000
     val expectedResult = input.map(_ * 2)
 

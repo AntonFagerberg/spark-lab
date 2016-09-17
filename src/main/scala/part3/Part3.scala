@@ -23,9 +23,22 @@ object Part3 {
     sparkContext.broadcast("Hello, World!")
   }
 
+  /** Similar to part 2: Some names have nicknames.
+    * You will receive the user RDD, but the nicknames
+    * will be provided as a broadcast variable.
+    *
+    * Return RDD with (nickname, surname) for all users that has a nickname.
+    */
+  def usingBroadcastVariable(users: RDD[User], nicknames: Broadcast[Map[String, String]]): RDD[(String, String)] = {
+    users
+      .flatMap { user =>
+        nicknames.value.lift(user.name).map(_ -> user.surname)
+      }
+  }
+
+  /** Implement an accumulator of type Long (input and output).
+    */
   def longAccumulator: AccumulatorV2[Long, Long] = {
-    /** Implement an accumulator of type Long (input and output).
-      */
     class LongAccumulator extends AccumulatorV2[Long, Long] {
       var currentValue = 0l
       /**
@@ -77,7 +90,7 @@ object Part3 {
     new LongAccumulator()
   }
 
-  /** Now you will use the accumulator you created in the previous method.
+  /** Now we will use the accumulator you created in the previous method.
     * Thus: you need to implement "longAccumulator" before doing this.
     *
     * Increment "accumulator" by one for each user in "users".
@@ -89,7 +102,7 @@ object Part3 {
   /** We will now implement an accumulator with different input and output.
     *
     * The input will be User objects, the output should be a list of all
-    * the unique ages´
+    * the unique ages.
     */
   def userAgeAccumulator: AccumulatorV2[User, List[Int]] = {
     class UserAgeAccumulator extends AccumulatorV2[User, List[Int]] {

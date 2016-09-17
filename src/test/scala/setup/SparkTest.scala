@@ -40,7 +40,7 @@ trait SparkTest extends FunSuite with BeforeAndAfterAll with Matchers {
 
   lazy val users =
     readFile("users.txt")
-      .sliding(7,7)
+      .sliding(7, 7)
       .map { case List(_, name, surname, city, country, age, _) =>
         User(
           name.drop(1).dropRight(2),

@@ -99,9 +99,8 @@ class Part2Test extends SparkTest {
 
   test("Shortest names by age") {
     val usersRDD = sparkContext.parallelize(users)
-    val nicknamesRDD = sparkContext.parallelize(nicknames)
 
-    val result = Part2.shortestNamesByAge(usersRDD, nicknamesRDD).collect()
+    val result = Part2.shortestNamesByAge(usersRDD).collect()
 
     val nicknameMap = nicknames.toMap
 

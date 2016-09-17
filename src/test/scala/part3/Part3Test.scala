@@ -13,6 +13,24 @@ class Part3Test extends SparkTest {
       .value shouldBe "Hello, World!"
   }
 
+  test("Using a broadcast variable") {
+    val nicknamesMap = Map("Calista" -> "Cali", "Benedict" -> "Ben", "Velma" -> "Vel")
+
+    val nicknames = sparkContext.broadcast(nicknamesMap)
+
+    val usersRDD = sparkContext.parallelize(users)
+
+    val result = Part3.usingBroadcastVariable(usersRDD, nicknames).collect
+
+    val expected =
+      users
+        .flatMap { user =>
+          nicknamesMap.lift(user.name).map(_ -> user.surname)
+        }
+
+    result should contain theSameElementsAs expected
+  }
+
   test("Long Accumulator") {
     val usersRDD = sparkContext.parallelize(users)
 

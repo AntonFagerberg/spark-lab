@@ -10,10 +10,10 @@ import setup.User
   * In addition to the functions we used in part1:
   * http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.rdd.RDD
   *
-  * You will also need to use these functions:
+  * We will also need to use these functions:
   * http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.rdd.PairRDDFunctions
   *
-  * (In this part, it's harder to use the clues in the tests).
+  * (In this part, it's harder to look at the tests for clues).
   */
 object Part2 {
 
@@ -35,8 +35,7 @@ object Part2 {
       .reduceByKey(_ + _)
   }
 
-  /** What is the most common age?
-    * How many has that age?
+  /** What is the most common age - and how many has that age?
     *
     * Return a tuple with (age, count)
     */
@@ -44,7 +43,7 @@ object Part2 {
     users
       .map(user => user.age -> 1)
       .reduceByKey(_ + _)
-      .reduce { case (t1@(age1, count1), t2@(age2, count2)) =>
+      .reduce { case (t1@(_, count1), t2@(_, count2)) =>
         if (count1 > count2) {
           t1
         } else {
@@ -102,7 +101,7 @@ object Part2 {
     * Return RDD with (age, list of names).
     * Example: RDD((56,List(Joel, Leah, Rhea, Roth, Sade, Yoko)), (40,List(Ima)), (41,List(Colt, Todd)), ...)
     */
-  def shortestNamesByAge(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(Int, List[String])] = {
+  def shortestNamesByAge(users: RDD[User]): RDD[(Int, List[String])] = {
 
     /** The createCombiner turns our value (User) into the format we want
       * to return, i.e. a list of (first) names.
@@ -115,9 +114,9 @@ object Part2 {
       * return value (list of names).
       *
       * We have to handle three outcomes:
-      * The User has a shorter name than the list of names => create a new list from the User with its name.
-      * The list of names are shorter than the User's name => keep the list of names, discard the User.
-      * The name in User is the same length as the list of names => add the User's name to the list of names.
+      * The User has a shorter name than the list of names.
+      * The list of names are shorter than the User's name.
+      * The name in User is the same length as the list of names.
       */
     def mergeValue(names: List[String], user: User): List[String] = {
       if (user.name.length < names.head.length) {
@@ -132,9 +131,9 @@ object Part2 {
     /** Merge combiners is used to merge two return values (list of names).
       *
       * We have to handle three outcomes:
-      * The names in names1 has the shortest lengths => use names1
-      * The names in names2 has the shortest lengths => use names2
-      * The names in names1 and names2 have equal lengths => combine the lists
+      * The names in names1 has the shortest lengths.
+      * The names in names2 has the shortest lengths.
+      * The names in names1 and names2 have equal lengths.
       */
     def mergeCombiners(names1: List[String], names2: List[String]): List[String] = {
       if (names1.head.length < names2.head.length) {
