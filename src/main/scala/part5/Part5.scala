@@ -23,21 +23,6 @@ import org.apache.spark.storage.StorageLevel
   */
 object Part5 {
   def largestGraphs(input: RDD[List[Int]]): RDD[List[Int]] = {
-    val iteration =
-      input
-        .flatMap { list =>
-          list.map(_ -> list)
-        }
-        .reduceByKey(_ ++ _)
-        .mapValues(_.distinct.sorted)
-        .values
-        .distinct()
-        .persist(StorageLevel.MEMORY_ONLY)
-
-    if (iteration.count() != input.count()) {
-      largestGraphs(iteration)
-    } else {
-      iteration
-    }
+    ???
   }
 }

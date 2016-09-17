@@ -20,8 +20,7 @@ object Part2 {
   /** Create a pair RDD with the age used as the key.
     */
   def keyedByAge(users: RDD[User]): RDD[(Int, User)] = {
-    users
-      .keyBy(_.age)
+    ???
   }
 
   /** Count the number of unique ages.
@@ -30,9 +29,7 @@ object Part2 {
     * that age as the value.
     */
   def ageCount(users: RDD[User]): RDD[(Int, Int)] = {
-    users
-      .map(user => user.age -> 1)
-      .reduceByKey(_ + _)
+    ???
   }
 
   /** What is the most common age - and how many has that age?
@@ -40,16 +37,7 @@ object Part2 {
     * Return a tuple with (age, count)
     */
   def mostCommonAge(users: RDD[User]): (Int, Int) = {
-    users
-      .map(user => user.age -> 1)
-      .reduceByKey(_ + _)
-      .reduce { case (t1@(_, count1), t2@(_, count2)) =>
-        if (count1 > count2) {
-          t1
-        } else {
-          t2
-        }
-      }
+    ???
   }
 
   /** Return a pair RDD:
@@ -60,9 +48,7 @@ object Part2 {
     * Example: ('A', List(User("Adam", ...), User("Albert", ...), ...)
     */
   def usersGroupedByFirstLetter(users: RDD[User]): RDD[(Char, List[User])] = {
-    users
-      .map(user => user.name.head -> List(user))
-      .reduceByKey(_ ++ _)
+    ???
   }
 
   /** Some names have nicknames.
@@ -72,12 +58,7 @@ object Part2 {
     * Return RDD with (nickname, surname) for all users that has a nickname.
     */
   def nickNames(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(String, String)] = {
-    users
-      .map(user => user.name -> user.surname)
-      .join(nicknames)
-      .map { case (_, (surname, nickname)) =>
-        nickname -> surname
-      }
+    ???
   }
 
   /** Like before, but if a user has no nickname, use "Nope" as the nickname instead.
@@ -85,12 +66,7 @@ object Part2 {
     * Return RDD with (nickname, surname) for all users.
     */
   def nickNamesWithDefaultValue(users: RDD[User], nicknames: RDD[(String, String)]): RDD[(String, String)] = {
-    users
-      .map(user => user.name -> user.surname)
-      .leftOuterJoin(nicknames)
-      .map { case (_, (surname, nickname)) =>
-        nickname.getOrElse("Nope") -> surname
-      }
+    ???
   }
 
   /** CombineByKey is a very powerful function similar to reduce, but with a different return type.
@@ -107,7 +83,7 @@ object Part2 {
       * to return, i.e. a list of (first) names.
       */
     def createCombiner(user: User): List[String] = {
-      List(user.name)
+      ???
     }
 
     /** mergeValue is called in when we have to merge a value (User) with our
@@ -119,13 +95,7 @@ object Part2 {
       * The name in User is the same length as the list of names.
       */
     def mergeValue(names: List[String], user: User): List[String] = {
-      if (user.name.length < names.head.length) {
-        List(user.name)
-      } else if (user.name.length > names.head.length) {
-        names
-      } else {
-        user.name :: names
-      }
+      ???
     }
 
     /** Merge combiners is used to merge two return values (list of names).
@@ -136,13 +106,7 @@ object Part2 {
       * The names in names1 and names2 have equal lengths.
       */
     def mergeCombiners(names1: List[String], names2: List[String]): List[String] = {
-      if (names1.head.length < names2.head.length) {
-        names1
-      } else if (names1.head.length > names2.head.length) {
-        names2
-      } else {
-        names1 ++ names2
-      }
+      ???
     }
 
     users

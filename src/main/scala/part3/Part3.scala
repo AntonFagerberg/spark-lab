@@ -20,7 +20,7 @@ object Part3 {
     * containing the string "Hello, World!".
     */
   def helloWorldBroadcastVariable(sparkContext: SparkContext): Broadcast[String] = {
-    sparkContext.broadcast("Hello, World!")
+    ???
   }
 
   /** Similar to part 2: Some names have nicknames.
@@ -30,32 +30,26 @@ object Part3 {
     * Return RDD with (nickname, surname) for all users that has a nickname.
     */
   def usingBroadcastVariable(users: RDD[User], nicknames: Broadcast[Map[String, String]]): RDD[(String, String)] = {
-    users
-      .flatMap { user =>
-        nicknames.value.lift(user.name).map(_ -> user.surname)
-      }
+    ???
   }
 
   /** Implement an accumulator of type Long (input and output).
     */
   def longAccumulator: AccumulatorV2[Long, Long] = {
     class LongAccumulator extends AccumulatorV2[Long, Long] {
-      var currentValue = 0l
       /**
         * Returns if this accumulator is zero value or not. e.g. for a counter accumulator, 0 is zero
         * value; for a list accumulator, Nil is zero value.
         */
       override def isZero: Boolean = {
-        currentValue == 0l
+        ???
       }
 
       /**
         * Creates a new copy of this accumulator.
         */
       override def copy(): AccumulatorV2[Long, Long] = {
-        val l = new LongAccumulator()
-        l.currentValue = currentValue
-        l
+        ???
       }
 
       /**
@@ -63,14 +57,14 @@ object Part3 {
         * return true.
         */
       override def reset(): Unit = {
-        currentValue = 0l
+        ???
       }
 
       /**
         * Takes the inputs and accumulates.
         */
       override def add(v: Long): Unit = {
-        currentValue += v
+        ???
       }
 
       /**
@@ -78,13 +72,13 @@ object Part3 {
         * merge-in-place.
         */
       override def merge(other: AccumulatorV2[Long, Long]): Unit = {
-        currentValue += other.value
+        ???
       }
 
       /**
         * Defines the current value of this accumulator
         */
-      override def value: Long = currentValue
+      override def value: Long = ???
     }
 
     new LongAccumulator()
@@ -96,7 +90,7 @@ object Part3 {
     * Increment "accumulator" by one for each user in "users".
     */
   def useTheLongAccumulator(users: RDD[User], accumulator: AccumulatorV2[Long, Long]): Unit = {
-    users.foreach(_ => accumulator.add(1l))
+    ???
   }
 
   /** We will now implement an accumulator with different input and output.
@@ -106,22 +100,19 @@ object Part3 {
     */
   def userAgeAccumulator: AccumulatorV2[User, List[Int]] = {
     class UserAgeAccumulator extends AccumulatorV2[User, List[Int]] {
-      var currentValue = List.empty[Int]
       /**
         * Returns if this accumulator is zero value or not. e.g. for a counter accumulator, 0 is zero
         * value; for a list accumulator, Nil is zero value.
         */
       override def isZero: Boolean = {
-        currentValue.isEmpty
+        ???
       }
 
       /**
         * Creates a new copy of this accumulator.
         */
       override def copy(): AccumulatorV2[User, List[Int]] = {
-        val l = new UserAgeAccumulator()
-        l.currentValue = currentValue
-        l
+        ???
       }
 
       /**
@@ -129,14 +120,14 @@ object Part3 {
         * return true.
         */
       override def reset(): Unit = {
-        currentValue = Nil
+        ???
       }
 
       /**
         * Takes the inputs and accumulates.
         */
       override def add(v: User): Unit = {
-        currentValue = (v.age :: currentValue).distinct
+        ???
       }
 
       /**
@@ -144,13 +135,13 @@ object Part3 {
         * merge-in-place.
         */
       override def merge(other: AccumulatorV2[User, List[Int]]): Unit = {
-        currentValue = (other.value ++ currentValue).distinct
+        ???
       }
 
       /**
         * Defines the current value of this accumulator
         */
-      override def value: List[Int] = currentValue
+      override def value: List[Int] = ???
     }
 
     new UserAgeAccumulator()

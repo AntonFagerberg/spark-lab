@@ -19,13 +19,13 @@ object Part1 {
     * MAKE ALL THE LINES UPPER CASE!
     */
   def makeItUpperCase(prideAndPrejudice: RDD[String]): RDD[String] = {
-    prideAndPrejudice.map(_.toUpperCase)
+    ???
   }
 
   /** Remove all lines which doesn't contain "Darcy" (case sensitive).
     */
   def mrDarcy(prideAndPrejudice: RDD[String]): RDD[String] = {
-    prideAndPrejudice.filter(_.contains("Darcy"))
+    ???
   }
 
   /** Return all the words.
@@ -34,8 +34,7 @@ object Part1 {
     * (To make it simple, we assume that "Hello", "hello" and "Hello!" are different words.)
     */
   def allTheWords(prideAndPrejudice: RDD[String]): RDD[String] = {
-    prideAndPrejudice
-      .flatMap(_.split(' '))
+    ???
   }
 
   /** How many words are there?
@@ -44,9 +43,7 @@ object Part1 {
     * (To make it simple, we assume that "Hello", "hello" and "Hello!" are different words.)
     */
   def howManyWords(prideAndPrejudice: RDD[String]): Long = {
-    prideAndPrejudice
-      .flatMap(_.split(' '))
-      .count()
+    ???
   }
 
 
@@ -55,18 +52,13 @@ object Part1 {
     * (Characters as in the "chars" that make up a string, not Mr. Darcy...)
     */
   def shortestNonEmptyLine(prideAndPrejudice: RDD[String]): Int = {
-    prideAndPrejudice
-      .map(_.length)
-      .filter(_ > 0)
-      .min
+    ???
   }
 
 
   /** Return a string with every 'a' in the text.
     */
   def aIsMyFavourite(prideAndPrejudice: RDD[String]): String = {
-    prideAndPrejudice
-      .map(_.filter(_ == 'a'))
-      .reduce(_ + _)
+    ???
   }
 }

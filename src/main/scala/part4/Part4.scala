@@ -23,12 +23,10 @@ object Part4 {
   def userPartitioner(nrOfPartitions: Int): Partitioner = {
 
     class UserPartitioner extends Partitioner {
-      override def numPartitions: Int = nrOfPartitions
+      override def numPartitions: Int = ???
 
       override def getPartition(key: Any): Int = {
-        key match {
-          case u: User => u.age % nrOfPartitions
-        }
+        ???
       }
     }
 
