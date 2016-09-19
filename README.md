@@ -83,7 +83,10 @@ Click the link to see the Spark UI.
 Remember to remove the `Thread.sleep` when you're done, otherwise your tests will continue to hang indefinitely.
 
 ## Good links
-* [Spark programming guide](http://spark.apache.org/docs/latest/programming-guide.html)
+* [Official Spark programming guide](http://spark.apache.org/docs/latest/programming-guide.html)
+* [Spark basics, RDD (slides by Heather Miller)]( http://heather.miller.am/teaching/cs212/slides/week19.pdf)
+* [Pair RDD (slides by Heather Miller)]( http://heather.miller.am/teaching/cs212/slides/week19b.pdf)
+* [Shuffling, Partitioning, Shared variables (accumulators, broadcast variables) and closures (slides by Heather Miller)]( http://heather.miller.am/teaching/cs212/slides/week20.pdf)
 * [Spark API](http://spark.apache.org/docs/latest/api.html)
 * [Scala tutorial](http://docs.scala-lang.org/tutorials/)
 * [Scala cheat sheet](http://docs.scala-lang.org/cheatsheets/)
